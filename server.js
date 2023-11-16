@@ -11,14 +11,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
-// Disocrd Status Bot
-
+// Discord Status Bot
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
 client.on('ready', () => {
   console.log(`Status Bot Başladı - ${client.user.tag}`);
 });
+
+app.listen(80);
 
 app.get('/status', (req, res) => {
   const member = client.guilds.cache.get(config.server).members.cache.get(config.discordID);
@@ -41,17 +42,17 @@ app.get('/status', (req, res) => {
   });
 });
 
-// Spotify Status 
+// Spotify Status
 const spoapi = 'https://api.spotify.com/v1/me/player/currently-playing';
 app.use(async (req, res, next) => {
   try {
     const response = await axios.get(spoapi, {
       headers: {
-        'Authorization': 'Bearer config.spotify-token',
+        'Authorization': `Bearer ${config['spotify-token']}`,
       },
     });
     const spotifyStatus = response.data.item;
-    res.locals.spotifyStatus = spotifyStatus; 
+    res.locals.spotifyStatus = spotifyStatus;
   } catch (error) {
     console.error('SpotifyStatus Error -', error.message);
     res.locals.spotifyStatus = null;
@@ -60,22 +61,22 @@ app.use(async (req, res, next) => {
 });
 
 // Discord Status
-const dcapi = 'config.url/status';
+const dcapi = `${config.url}/status`;
 app.get('/', async (req, res) => {
-    try {
-        const response = await axios.get(dcapi);
-        const discordStatus = response.data;
-        res.render('index', { discordStatus });
-    } catch (error) {
-        console.error('Error fetching Discord status:', error.message);
-        res.render('index', { discordStatus: {} });
-    }
+  try {
+    const response = await axios.get(dcapi);
+    const discordStatus = response.data;
+    res.render('index', { discordStatus });
+  } catch (error) {
+    console.error('DiscordStatus Error - :', error.message);
+    res.render('index', { discordStatus: {} });
+  }
 });
-// Anasayfa
+
+// Main Page
 app.get('/', (req, res) => {
   res.render('index');
 });
 
-
-client.login(config.discord-bot-token);
-app.listen(80)
+client.login(config['discord-bot-token']);
+app.listen(80);
