@@ -19,8 +19,6 @@ client.on('ready', () => {
   console.log(`Status Bot Başladı - ${client.user.tag}`);
 });
 
-app.listen(80);
-
 app.get('/status', (req, res) => {
   const member = client.guilds.cache.get(config.server).members.cache.get(config.discordID);
 
