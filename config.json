@@ -1,0 +1,7 @@
+{
+    "discord-bot-token": "your_discord_bot_token_here",
+    "server": "your_server_id_here",
+    "discordID": "your_discord_user_id_here",
+    "spotify-token": "your_spotify_token_here",
+    "url": "your_url_here with http:// or https://"
+  }
