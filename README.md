@@ -8,5 +8,5 @@
 - Open Config.json and fill in
 - Edit views/index.ejs
 - Open ur terminal n type "npm i"
-- After when download is finished type "npm server.js" and run ur project
+- After when download is finished type "node server.js" and run ur project
 - Tada 🎉
