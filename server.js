@@ -16,19 +16,16 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 client.on('ready', () => {
-  console.log(`Status Bot Başladı - ${client.user.tag}`);
+  console.log(`Status Bot Online - ${client.user.tag}`);
 });
 
 app.get('/status', (req, res) => {
   const member = client.guilds.cache.get(config.server).members.cache.get(config.discordID);
-
   if (!member) {
-    res.status(404).json({ error: 'Kullanıcı bulunamadı.' });
+    res.status(404).json({ error: 'User Not Found ( Discord ID )' });
     return;
   }
-
   const presence = member.presence;
-
   res.json({
     userId: member.id,
     username: member.user.username,
